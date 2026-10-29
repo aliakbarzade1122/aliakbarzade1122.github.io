@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel — Ali Akbarzade</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      background: #0d1117;
+      color: #c9d1d9;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .panel {
+      width: 100%;
+      max-width: 420px;
+      padding: 32px;
+      background: #161b22;
+      border: 1px solid #30363d;
+      border-radius: 12px;
+    }
+
+    h1 {
+      margin-top: 0;
+      color: #f0f6fc;
+    }
+
+    p {
+      color: #8b949e;
+    }
+
+    input {
+      width: 100%;
+      padding: 12px;
+      margin: 12px 0;
+      background: #0d1117;
+      color: #f0f6fc;
+      border: 1px solid #30363d;
+      border-radius: 6px;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      border: 0;
+      border-radius: 6px;
+      background: #238636;
+      color: white;
+      cursor: pointer;
+      font-size: 15px;
+    }
+
+    button:hover {
+      background: #2ea043;
+    }
+
+    #admin {
+      display: none;
+    }
+
+    .message {
+      margin-top: 12px;
+      color: #8b949e;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="panel">
+
+    <div id="login">
+      <h1>🔐 Admin Panel</h1>
+      <p>Enter the administrator password.</p>
+
+      <input
+        type="password"
+        id="password"
+        placeholder="Password"
+      >
+
+      <button onclick="login()">
+        Login
+      </button>
+
+      <div class="message" id="message"></div>
+    </div>
+
+    <div id="admin">
+      <h1>⚙️ Website Editor</h1>
+      <p>Welcome to the admin panel.</p>
+
+      <button onclick="logout()">
+        Logout
+      </button>
+    </div>
+
+  </div>
+
+  <script>
+    function login() {
+      const password = document.getElementById("password").value;
+      const message = document.getElementById("message");
+
+      // TEMPORARY ONLY
+      // We will replace this with real authentication later.
+      if (password === "CHANGE_THIS_PASSWORD") {
+        document.getElementById("login").style.display = "none";
+        document.getElementById("admin").style.display = "block";
+      } else {
+        message.textContent = "Wrong password.";
+      }
+    }
+
+    function logout() {
+      document.getElementById("admin").style.display = "none";
+      document.getElementById("login").style.display = "block";
+      document.getElementById("password").value = "";
+    }
+  </script>
+
+</body>
+</html>
