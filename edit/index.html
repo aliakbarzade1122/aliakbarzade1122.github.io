@@ -13,21 +13,24 @@
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: Arial, sans-serif;
-      background: #0d1117;
-      color: #c9d1d9;
       display: flex;
       align-items: center;
       justify-content: center;
+      background: #0d1117;
+      color: #c9d1d9;
+      font-family: Arial, sans-serif;
+    }
+
+    .container {
+      width: min(90%, 600px);
     }
 
     .panel {
-      width: 100%;
-      max-width: 420px;
-      padding: 32px;
       background: #161b22;
       border: 1px solid #30363d;
       border-radius: 12px;
+      padding: 30px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
     }
 
     h1 {
@@ -35,99 +38,173 @@
       color: #f0f6fc;
     }
 
-    p {
-      color: #8b949e;
-    }
-
     input {
       width: 100%;
       padding: 12px;
-      margin: 12px 0;
-      background: #0d1117;
-      color: #f0f6fc;
+      margin: 10px 0;
       border: 1px solid #30363d;
       border-radius: 6px;
+      background: #0d1117;
+      color: #f0f6fc;
+      font-size: 16px;
     }
 
     button {
-      width: 100%;
-      padding: 12px;
+      padding: 11px 18px;
       border: 0;
       border-radius: 6px;
+      cursor: pointer;
       background: #238636;
       color: white;
-      cursor: pointer;
       font-size: 15px;
+      margin-top: 8px;
     }
 
     button:hover {
       background: #2ea043;
     }
 
-    #admin {
-      display: none;
+    .logout {
+      background: #da3633;
+    }
+
+    .logout:hover {
+      background: #f85149;
     }
 
     .message {
       margin-top: 12px;
-      color: #8b949e;
+      color: #f85149;
+    }
+
+    #admin {
+      display: none;
     }
   </style>
 </head>
 
 <body>
 
-  <div class="panel">
+<div class="container">
 
-    <div id="login">
-      <h1>🔐 Admin Panel</h1>
-      <p>Enter the administrator password.</p>
+  <!-- LOGIN -->
+  <div id="login" class="panel">
+    <h1>🔐 Admin Panel</h1>
 
-      <input
-        type="password"
-        id="password"
-        placeholder="Password"
-      >
+    <p>Enter the administrator password.</p>
 
-      <button onclick="login()">
-        Login
-      </button>
+    <input
+      id="password"
+      type="password"
+      placeholder="Password"
+      autocomplete="off"
+    >
 
-      <div class="message" id="message"></div>
-    </div>
+    <button onclick="togglePassword()">👁 Show / Hide</button>
+    <button onclick="login()">Login</button>
 
-    <div id="admin">
-      <h1>⚙️ Website Editor</h1>
-      <p>Welcome to the admin panel.</p>
-
-      <button onclick="logout()">
-        Logout
-      </button>
-    </div>
-
+    <div id="message" class="message"></div>
   </div>
 
-  <script>
-    function login() {
-      const password = document.getElementById("password").value;
-      const message = document.getElementById("message");
 
-      // TEMPORARY ONLY
-      // We will replace this with real authentication later.
-      if (password === "CHANGE_THIS_PASSWORD") {
-        document.getElementById("login").style.display = "none";
-        document.getElementById("admin").style.display = "block";
-      } else {
-        message.textContent = "Wrong password.";
-      }
+  <!-- ADMIN -->
+  <div id="admin" class="panel">
+    <h1>⚙️ Website Editor</h1>
+
+    <p>Welcome, Ali.</p>
+
+    <hr>
+
+    <h2>Projects</h2>
+
+    <p>Project editing will be added here.</p>
+
+    <button class="logout" onclick="logout()">Logout</button>
+  </div>
+
+</div>
+
+
+<script>
+
+  // SHA-256 hash of the administrator password
+  const STORED_HASH =
+    "daa14ee74bc5d2e966c706f3a15cbb38c30aae6cfb5424208ccec169b7a9e3d6";
+
+
+  async function sha256(text) {
+
+    const data = new TextEncoder().encode(text);
+
+    const hashBuffer =
+      await crypto.subtle.digest("SHA-256", data);
+
+    const hashArray =
+      Array.from(new Uint8Array(hashBuffer));
+
+    return hashArray
+      .map(byte => byte.toString(16).padStart(2, "0"))
+      .join("");
+  }
+
+
+  async function login() {
+
+    const password =
+      document.getElementById("password").value;
+
+    const message =
+      document.getElementById("message");
+
+    if (!password) {
+      message.textContent = "Please enter a password.";
+      return;
     }
 
-    function logout() {
-      document.getElementById("admin").style.display = "none";
-      document.getElementById("login").style.display = "block";
-      document.getElementById("password").value = "";
+    const hash = await sha256(password);
+
+    if (hash === STORED_HASH) {
+
+      document.getElementById("login").style.display = "none";
+      document.getElementById("admin").style.display = "block";
+
+      message.textContent = "";
+
+    } else {
+
+      message.textContent = "Wrong password.";
+
     }
-  </script>
+  }
+
+
+  function togglePassword() {
+
+    const input =
+      document.getElementById("password");
+
+    if (input.type === "password") {
+
+      input.type = "text";
+
+    } else {
+
+      input.type = "password";
+
+    }
+  }
+
+
+  function logout() {
+
+    document.getElementById("admin").style.display = "none";
+    document.getElementById("login").style.display = "block";
+
+    document.getElementById("password").value = "";
+
+  }
+
+</script>
 
 </body>
 </html>
