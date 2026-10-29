@@ -1,0 +1,28 @@
+{
+  "about": "Curious about almost everything. I build, experiment, break things, fix things, and occasionally create something completely unnecessary. :)",
+  "skills": [
+    "Linux",
+    "Python",
+    "AI",
+    "Game Development",
+    "Automation",
+    "Minecraft"
+  ],
+  "projects": [
+    {
+      "name": "Universe Creator",
+      "description": "Don't play the universe, create it.",
+      "url": ""
+    },
+    {
+      "name": "Eloria",
+      "description": "An experimental game project built with Godot.",
+      "url": ""
+    },
+    {
+      "name": "AI Experiments",
+      "description": "Experiments with AI, automation and intelligent tools.",
+      "url": ""
+    }
+  ]
+}
