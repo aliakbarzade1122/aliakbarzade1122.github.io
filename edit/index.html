@@ -163,6 +163,8 @@
 
     const hash = await sha256(password);
 
+    message.textContent = "Generated hash: " + hash;
+
     if (hash === STORED_HASH) {
 
       document.getElementById("login").style.display = "none";
